@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:news_api/backend/functions.dart';
+import 'package:news_api/components/newsbox.dart';
 import 'package:news_api/components/searchbar.dart';
 import 'package:news_api/components/searchbar2.dart';
+import 'package:news_api/news_widgets/ind_ent.dart';
+import 'package:news_api/news_widgets/ind_news.dart';
+import 'package:news_api/news_widgets/us_ent.dart';
+import 'package:news_api/news_widgets/us_news.dart';
 import 'package:news_api/utils/constant.dart';
 import 'package:news_api/utils/text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,13 +18,16 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late Future<List> news;
+
+  late TabController tabController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     news = fetchNews();
+    tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -42,23 +51,50 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           SearchBar2(),
+          SizedBox(
+            height: 15,
+          ),
+          TabBar(
+            controller: tabController,
+            tabs: [
+              Tab(
+                child: Text(
+                  "tech news in India",
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Tab(
+                  child: Text(
+                "tech news in Us",
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              )),
+              Tab(
+                  child: Text(
+                "Top Entertainment in India",
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              )),
+              Tab(
+                  child: Text(
+                "Top Entertainment in Us",
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              )),
+            ],
+          ),
           Expanded(
-              child: Container(
-            width: MediaQuery.of(context).size.width,
-            child: FutureBuilder<List>(
-              future: fetchNews(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        return Container();
-                      });
-                } else
-                  return Container();
-              },
-            ),
-          ))
+              child: TabBarView(
+                  controller: tabController,
+                  physics: BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
+                  children: [
+                IndNews(),
+                UsNews(),
+                IndEntertainment(),
+                UsEntertinment()
+              ]))
         ],
       ),
     );

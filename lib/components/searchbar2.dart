@@ -21,19 +21,22 @@ class _SearchBar2State extends State<SearchBar2> {
           width: MediaQuery.of(context).size.width,
           child: Row(
             children: [
-              Container(
-                height: 55,
-                width: 330,
-                decoration: BoxDecoration(
-                    color: Colors.redAccent[200],
-                    borderRadius: BorderRadius.circular(30)),
-                padding: EdgeInsets.all(20),
-                child: TextField(
-                  controller: searchcontroller,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Search a keyword or a phrase ',
-                      hintStyle: TextStyle(fontSize: 14)),
+              Expanded(
+                flex: 5,
+                child: Container(
+                  height: 55,
+                  width: 330,
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 255, 111, 111),
+                      borderRadius: BorderRadius.circular(30)),
+                  padding: EdgeInsets.all(20),
+                  child: TextField(
+                    controller: searchcontroller,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Search a keyword or a phrase ',
+                        hintStyle: TextStyle(fontSize: 14)),
+                  ),
                 ),
               ),
               SizedBox(
@@ -54,7 +57,8 @@ class _SearchBar2State extends State<SearchBar2> {
                     color: Colors.white,
                   ),
                 ),
-              )
+              ),
+              
             ],
           ),
         )
