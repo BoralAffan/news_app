@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:news_api/backend/functions.dart';
 import 'package:news_api/components/newsbox.dart';
 import 'package:news_api/components/searchbar.dart';
@@ -47,6 +50,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             Text('News', style: TextStyle(color: Colors.black))
           ],
         ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.logout,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+        ],
       ),
       body: Column(
         children: [
